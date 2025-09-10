@@ -9,7 +9,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const dbPath = path.join(__dirname, "aeclibrary.db");
+const dbPath = path.resolve("./aeclibrary.db");
+console.log("DB Path:", dbPath);
+
 let db = null;
 
 // DB Initialization
