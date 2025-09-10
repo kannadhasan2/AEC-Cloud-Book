@@ -25,7 +25,7 @@ const Login = () => {
         if (registerNo.startsWith("5104")) {
             if (registerNo.length === 12) {
                 if (dateOfBirth.length === 10) {
-                    const url = "https://aec-cloud-book-backend.vercel.app/login";
+                    const url = "https://aec-cloud-book-oza4.vercel.app/login";
                     const student = { registerNo, dateOfBirth };
                     const options = {
                         method: "POST",

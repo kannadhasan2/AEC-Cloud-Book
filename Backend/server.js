@@ -94,6 +94,10 @@ app.post("/login", async (request,response) =>{
     }
 })
 
+app.use('/',(req,res)=> {
+  res.send("Working")
+})
+
 //Get STudent Details 
 app.get('/student-list/', authenticateToken, async (request,response)=>{
     const selectStudentQuery = `

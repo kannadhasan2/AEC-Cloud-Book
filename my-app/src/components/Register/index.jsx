@@ -43,7 +43,7 @@ const Register = () => {
     if (registerNo.startsWith('5104')) {
       if (registerNo.length === 12) {
         if (dateOfBirth.length === 10) {
-          const url = 'https://aec-cloud-book-backend.vercel.app/register';
+          const url = 'https://aec-cloud-book-oza4.vercel.app/register';
           const student = { registerNo, dateOfBirth, email, department, username };
           const options = {
             method: 'POST',
