@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 const dbPath = path.resolve("./aeclibrary.db");
-console.log("DB Path:", dbPath);
+
 
 let db = null;
 
@@ -56,6 +56,12 @@ const authenticateToken = (request, response, next) => {
   }
 };
 
+//testing
+app.get("/",(request,response) =>{
+  response.send("Working...")
+})
+
+
 // Register User
 app.post("/register", async (request, response) => {
   const { username, dateOfBirth, registerNo, department, email } = request.body;
@@ -93,10 +99,7 @@ app.post("/login", async (request, response) => {
   }
 });
 
-// Test Route
-app.get("/", (req, res) => {
-  res.send("Working");
-});
+
 
 // Student List
 app.get("/student-list", async (request, response) => {
