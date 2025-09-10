@@ -33,9 +33,6 @@ const initializationOfDBAndServer = async () => {
   }
 };
 initializationOfDBAndServer();
-console.log("DB Path:", dbPath);
-const tables = await db.all("SELECT name FROM sqlite_master WHERE type='table';");
-console.log("Tables:", tables);
 
 // JWT Middleware
 const authenticateToken = (request, response, next) => {
