@@ -140,3 +140,5 @@ app.get('/book/:bookId' , async (request,response) => {
   const book = await db.get(getBooksQuery) 
   response.send(book)
 })
+
+module.exports = app
