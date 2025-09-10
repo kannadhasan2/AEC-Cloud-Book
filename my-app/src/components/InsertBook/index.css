@@ -1,0 +1,77 @@
+/* Styling the main form container */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling the form title */
+  .form-title {
+    text-align: center;
+    color: #28306b;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Styling the form */
+  .book-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Styling each form group */
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  /* Styling the labels */
+  .form-label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    display: block;
+    font-weight: 500;
+  }
+  
+  /* Styling the input fields */
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
+  
+  .form-input:focus {
+    border-color: #1f5d53;
+    outline: none;
+  }
+  
+  /* Specific styling for textarea */
+  .form-textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  /* Styling the submit button */
+  .form-button {
+    padding: 10px;
+    background-color: #28306b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-button:hover {
+    background-color: #1f5d53;
+  }
+  

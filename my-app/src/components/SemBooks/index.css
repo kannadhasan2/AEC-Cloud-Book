@@ -1,0 +1,49 @@
+.sem-book-container{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 24px;
+    margin-left: 17%;
+    margin-right: 17%;
+    margin-top: 8%;
+    list-style: none;
+}
+.sem-list{
+    width: 300px;
+    height: 100%;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    color:aquamarine;
+}
+.active{
+    color: aqua;
+    font-weight: bold;
+}
+.sem-button{
+    background-color: transparent;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.sem-book-container-two{
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 14px;
+    margin-left: 17%;
+    margin-right: 17%;
+    list-style: none;
+}
+
+@media screen and (max-width:768px) {
+    .sem-book-container{
+        margin-top: 21%;
+    }
+}

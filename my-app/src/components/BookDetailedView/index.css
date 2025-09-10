@@ -1,0 +1,51 @@
+.book-details-container-main {
+  background-color: #2c364c;
+  width: 87%;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  color: #fff;
+  
+  margin-top: 99px;
+}
+.book-detailed-view{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.main-book-head{
+  width: 87%;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.chapter{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+.chapter-text{
+  font-weight: bold;
+  color: rgb(235, 139, 195);
+  font-size: 19px;
+}
+@media screen and (max-width:768px) {
+  .main-book-head{
+    flex-direction: column;
+  }
+  .book-details-container-main{
+    width: 98%;
+    padding:12px;
+  }
+  .chapter{
+    list-style-type: none;
+  }
+}

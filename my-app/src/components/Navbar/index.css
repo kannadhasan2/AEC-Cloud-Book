@@ -1,0 +1,192 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+  }
+  
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 100px;
+    
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 100;
+  }
+  .header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    transition: 0.5s;
+  }
+  .header:hover::before {
+    left: 100%;
+  }
+  .logo-image{
+    height: 50px;
+    width: 50px;
+    opacity: 1;
+  }
+  .logo {
+    color: #fff;
+    font-size: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: default;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  .menu-button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  .logout-button{
+    margin-left: 29px;
+   padding: 0.6rem;
+   border-radius: 0.5rem;
+   background-color: var(--white-color);
+   font-weight: var(--font-medium);
+   cursor: pointer;
+   margin-bottom: 0.5rem;
+   color: black;
+   font-weight: bold;
+   font-size: 18px;
+  }
+  .logout-button:hover{
+    background-color: #0000FF;
+    color: white;
+  }
+  .navbar a {
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    margin-left: 28px;
+    transition: 0.3s;
+  }
+  .navbar a:hover {
+    color: #0000FF;
+  }
+  #menu-icon {
+    font-size: 36px;
+    color: #fff;
+    display: none;
+  }
+  .logout-text{
+    font-size: 24px;
+    color: black;
+    padding: 20px;
+  }
+  .pop-up-container{
+    height: 200px;
+    
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .trigger-button{
+  
+   padding: 0.6rem;
+   border-radius: 0.5rem;
+   background-color: transparent;
+   border: 2px solid black;
+   font-weight: var(--font-medium);
+   cursor: pointer;
+   margin-bottom: 0.5rem;
+   color: black;
+   font-weight: bold;
+   font-size: 18px;
+  }
+  .logout-button-container{
+    display: flex;
+  }
+  .logout{
+    background-color: #0000FF;
+    color: white;
+  }
+  
+  @media (max-width: 992px) {
+    .header {
+      padding: 0.6rem 4%;
+    }
+    .navbar a{
+      font-size: 15px;
+      margin-left: 16px;
+    }
+    .logout-button {
+      padding: 0.5rem;
+      font-size: 16px;
+    }
+    .trigger-button{
+      padding: 0.5rem;
+      font-size: 16px;
+    }
+  }
+  @media (max-width: 768px) {
+    
+    .logout-button{
+      margin: auto;
+    }
+    .logout-text{
+      font-size: 17px;
+    }
+    .pop-up-container{
+      padding: 12px;
+    }
+    #menu-icon {
+      display: block;
+    }
+    .navbar {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      padding: 0.4rem 4%;
+      display: none;
+    }
+    .navbar.active {
+      display: block;
+    }
+    .navbar a {
+      display: block;
+      margin: 1rem 0;
+    }
+    .nav-bg {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      width: 100%;
+      height: 295px;
+      background: rgba(255, 255, 255, 0.1);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      z-index: 99;
+      display: none;
+    }
+    .nav-bg.active {
+      display: block;
+    }
+  }
+
+  

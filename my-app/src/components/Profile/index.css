@@ -1,0 +1,29 @@
+.profile-container{
+    background-image: url('https://res.cloudinary.com/dn6izpj6p/image/upload/v1728868824/dark-wavy-colors-background_23-2148403785_qt2w6v.avif');
+  width: 320px;
+  height: 250px;
+  border-radius: 20px;
+  padding: 20px;
+  background-size: cover;
+  color: black;
+  font-family: 'Roboto';
+  margin-bottom: 20px;
+}
+.profile-logo-image{
+    height: 70px;
+    width: 70px;
+}
+.profile-data-text{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: bold;
+    color:  #ffffff;
+}
+.loader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 210px;
+}
