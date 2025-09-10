@@ -9,8 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const dbPath = path.resolve("./aeclibrary.db");
-
+const dbPath = path.join("/tmp", "aeclibrary.db");
 
 let db = null;
 
