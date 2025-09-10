@@ -92,12 +92,12 @@ app.post("/login", async (request, response) => {
 });
 
 // Test Route
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("Working");
 });
 
 // Student List
-app.get("/student-list", authenticateToken, async (request, response) => {
+app.get("/student-list", async (request, response) => {
   const selectStudentQuery = `SELECT * FROM student;`;
   const studentList = await db.all(selectStudentQuery);
   response.send({ studentList });
