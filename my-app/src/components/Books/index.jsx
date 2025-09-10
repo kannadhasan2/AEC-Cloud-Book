@@ -61,7 +61,7 @@ const Books = () => {
   }, [])
 
   const getBooks = async () => {
-    const url = 'https://aec-cloud-book-oza4.vercel.app/books'
+    const url = 'https://aec-cloud-book-nuq1.vercel.app/books'
     const response = await fetch(url)
     if (response.ok) {
       const data = await response.json()

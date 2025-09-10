@@ -18,7 +18,7 @@ const Profile = () => {
       },
     };
     try {
-      const response = await fetch("https://aec-cloud-book-oza4.vercel.app/profile", options);
+      const response = await fetch("https://aec-cloud-book-nuq1.vercel.app/profile", options);
       if (response.ok) {
         const data = await response.json()
         const updatedData = {
