@@ -41,7 +41,18 @@ const initializationOfDBAndServer = async () => {
         chapters TEXT
       );
     `);
-
+      const existingBooks = await db.get(`SELECT COUNT(*) as count FROM books;`);
+          if (existingBooks.count === 0) {
+            await db.run(`
+              INSERT INTO books (
+                book_id, book_name, author, number_of_pages, published_year, publisher, description, book_count, image_url, chapters
+              )
+              VALUES (
+                'B001', 'Innovation 101', 'John Doe', 250, 2022, 'OpenAI Press', 'A book on innovation', 5, 'https://via.placeholder.com/150', '["Intro", "Chapter1"]'
+              );
+            `);
+            console.log("✅ Sample book inserted");
+          }
 
     // Run local server only if not in Vercel
     if (process.env.VERCEL === undefined) {
