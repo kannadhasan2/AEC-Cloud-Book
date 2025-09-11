@@ -54,6 +54,27 @@ const authenticateToken = (request, response, next) => {
     });
   }
 };
+await db.exec(`
+  CREATE TABLE IF NOT EXISTS student (
+    register_no TEXT PRIMARY KEY,
+    username TEXT,
+    department TEXT,
+    date_of_birth TEXT,
+    email TEXT
+  );
+  CREATE TABLE IF NOT EXISTS books (
+    book_id TEXT PRIMARY KEY,
+    book_name TEXT,
+    author TEXT,
+    number_of_pages INTEGER,
+    published_year INTEGER,
+    publisher TEXT,
+    description TEXT,
+    book_count INTEGER,
+    image_url TEXT,
+    chapters TEXT
+  );
+`);
 
 //testing
 app.get("/",(request,response) =>{
