@@ -6,7 +6,11 @@ import jwt from "jsonwebtoken";
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: "https://aec-cloud-book-snh8.vercel.app", // frontend origin
+  methods: ["GET", "POST", "PUT", "DELETE"],       // allowed HTTP methods
+  credentials: true                                // if you need cookies/auth
+}));
 
 // Initialize Turso client
 const db = createClient({
@@ -131,6 +135,7 @@ app.post("/login", async (req, res) => {
   const student = dbStudent.rows[0];
   if (student.date_of_birth === dateOfBirth) {
     const jwtToken = jwt.sign({ register_no: registerNo }, process.env.JWT_SECRET);
+    console.log(jwtToken)
     res.send({ jwt_token: jwtToken });
   } else {
     res.status(400).send("Invalid Date Of Birth");
