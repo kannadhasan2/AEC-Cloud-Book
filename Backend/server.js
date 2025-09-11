@@ -1,33 +1,35 @@
-const express = require("express");
-const { open } = require("sqlite");
-const sqlite3 = require("sqlite3");
-const cors = require("cors");
-const path = require("path");
-const jwt = require("jsonwebtoken");
+import 'dotenv/config';
+import express from "express";
+import { createClient } from "@libsql/client";
+import cors from "cors";
+import jwt from "jsonwebtoken";
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-const dbPath = path.join("/tmp", "aeclibrary.db");
-
-let db = null;
+// Initialize Turso client
+const db = createClient({
+  url: 'libsql://aec-library-kannadhasan2.aws-ap-south-1.turso.io', // your HTTP URL
+  authToken: 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3NTc1NzAwMzcsImlkIjoiZTYzZTFlYzItNmM5MS00YmE2LWI2YmUtMDY0MDc1NGZkMDJmIiwicmlkIjoiZTczMjdhYmUtYzcyOS00OTc5LWJkMmEtODZkODZmOWM0ODgxIn0.YSjhd3u7cVRi6E60FHouEXwJHnuixlDrermUOzgrNER2C19_HuUALB2ttGd_GQcERzVTxqhjbV1sfhEs76AvDQ'
+});
 
 // DB Initialization
-const initializationOfDBAndServer = async () => {
+const initializeDB = async () => {
   try {
-    db = await open({
-      filename: dbPath,
-      driver: sqlite3.Database,
-    });
-    await db.exec(`
+    // Create student table
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS student (
         register_no TEXT PRIMARY KEY,
         username TEXT,
         department TEXT,
         date_of_birth TEXT,
         email TEXT
-      );
+      )
+    `);
+
+    // Create books table
+    await db.execute(`
       CREATE TABLE IF NOT EXISTS books (
         book_id TEXT PRIMARY KEY,
         book_name TEXT,
@@ -39,140 +41,139 @@ const initializationOfDBAndServer = async () => {
         book_count INTEGER,
         image_url TEXT,
         chapters TEXT
-      );
+      )
     `);
-      const existingBooks = await db.get(`SELECT COUNT(*) as count FROM books;`);
-          if (existingBooks.count === 0) {
-            await db.run(`
-              INSERT INTO books (
-                book_id, book_name, author, number_of_pages, published_year, publisher, description, book_count, image_url, chapters
-              )
-              VALUES (
-                'B001', 'Innovation 101', 'John Doe', 250, 2022, 'OpenAI Press', 'A book on innovation', 5, 'https://via.placeholder.com/150', '["Intro", "Chapter1"]'
-              );
-            `);
-            console.log("✅ Sample book inserted");
-          }
 
-    // Run local server only if not in Vercel
-    if (process.env.VERCEL === undefined) {
-      app.listen(5000, () => {
-        console.log("Server running at http://localhost:5000");
+    // Check if any books exist
+    const existingBooks = await db.execute("SELECT COUNT(*) AS count FROM books");
+    if (existingBooks.rows[0].count === 0) {
+      await db.execute({
+        sql: `INSERT INTO books (
+          book_id, book_name, author, number_of_pages, published_year, publisher, description, book_count, image_url, chapters
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        args: [
+          "B001",
+          "Innovation101",
+          "JohnDoe",
+          250,
+          2022,
+          "OpenAIPress",
+          "A book on innovation",
+          5,
+          "https://via.placeholder.com/150",
+          JSON.stringify(["Intro", "Chapter1"]),
+        ],
       });
+      console.log("✅ Sample book inserted");
     }
+
+    // Start server if not on Vercel
+    if (!process.env.VERCEL) {
+      const PORT = process.env.PORT || 5000;
+      app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
+    }
+
   } catch (e) {
-    console.log(`DB Error: ${e.message}`);
+    console.error(`DB Error: ${e.message}`);
     process.exit(1);
   }
 };
-initializationOfDBAndServer();
+
+initializeDB();
 
 // JWT Middleware
-const authenticateToken = (request, response, next) => {
-  let jwtToken;
-  const authHeader = request.headers["authorization"];
-  if (authHeader !== undefined) {
-    jwtToken = authHeader.split(" ")[1];
-  }
-  if (jwtToken === undefined) {
-    response.status(401).send("Invalid JWT Token");
-  } else {
-    jwt.verify(jwtToken, "AEC_LIBRARY", (error, payload) => {
-      if (error) {
-        response.status(401).send("Invalid JWT Token");
-      } else {
-        request.register_no = payload.register_no;
-        next();
-      }
-    });
-  }
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const jwtToken = authHeader && authHeader.split(" ")[1];
+
+  if (!jwtToken) return res.status(401).send("Invalid JWT Token");
+
+  jwt.verify(jwtToken, process.env.JWT_SECRET, (error, payload) => {
+    if (error) return res.status(401).send("Invalid JWT Token");
+    req.register_no = payload.register_no;
+    next();
+  });
 };
 
-//testing
-app.get("/",(request,response) =>{
-  response.send("Working...")
-})
+// Routes
+app.get("/", (req, res) => res.send("Working..."));
 
+app.post("/register", async (req, res) => {
+  const { username, dateOfBirth, registerNo, department, email } = req.body;
+  const dbStudent = await db.execute({
+    sql: "SELECT * FROM student WHERE register_no = ?",
+    args: [registerNo],
+  });
 
-// Register User
-app.post("/register", async (request, response) => {
-  const { username, dateOfBirth, registerNo, department, email } = request.body;
-  const selectStudentQuery = `SELECT * FROM student WHERE register_no = '${registerNo}';`;
-  const dbStudent = await db.get(selectStudentQuery);
-
-  if (dbStudent === undefined) {
-    const createStudentQuery = `
-      INSERT INTO student (username, register_no, department, date_of_birth, email)
-      VALUES ('${username}', '${registerNo}', '${department}', '${dateOfBirth}', '${email}');
-    `;
-    await db.run(createStudentQuery);
-    response.send({ error_msg: "User Created Successfully" });
+  if (dbStudent.rows.length === 0) {
+    await db.execute({
+      sql: `
+        INSERT INTO student (username, register_no, department, date_of_birth, email)
+        VALUES (?, ?, ?, ?, ?)
+      `,
+      args: [username, registerNo, department, dateOfBirth, email],
+    });
+    res.send({ message: "User Created Successfully" });
   } else {
-    response.status(400).send({ error_msg: "User already exist" });
+    res.status(400).send({ error_msg: "User already exists" });
   }
 });
 
-// Login User
-app.post("/login", async (request, response) => {
-  const { registerNo, dateOfBirth } = request.body;
-  const selectStudentQuery = `SELECT * FROM student WHERE register_no = '${registerNo}';`;
-  const dbStudent = await db.get(selectStudentQuery);
+app.post("/login", async (req, res) => {
+  const { registerNo, dateOfBirth } = req.body;
+  const dbStudent = await db.execute({
+    sql: "SELECT * FROM student WHERE register_no = ?",
+    args: [registerNo],
+  });
 
-  if (dbStudent === undefined) {
-    response.status(400).send("Invalid Register No");
+  if (dbStudent.rows.length === 0) return res.status(400).send("Invalid Register No");
+
+  const student = dbStudent.rows[0];
+  if (student.date_of_birth === dateOfBirth) {
+    const jwtToken = jwt.sign({ register_no: registerNo }, process.env.JWT_SECRET);
+    res.send({ jwt_token: jwtToken });
   } else {
-    if (dbStudent.date_of_birth === dateOfBirth) {
-      const payload = { register_no: registerNo };
-      const jwtToken = jwt.sign(payload, "AEC_LIBRARY");
-      response.send({ jwt_token: jwtToken });
-    } else {
-      response.status(400).send("Invalid Date Of Birth");
-    }
+    res.status(400).send("Invalid Date Of Birth");
   }
 });
 
-
-
-// Student List
-app.get("/student-list", async (request, response) => {
-  const selectStudentQuery = `SELECT * FROM student;`;
-  const studentList = await db.all(selectStudentQuery);
-  response.send({ studentList });
+app.get("/student-list", async (req, res) => {
+  const studentList = await db.execute("SELECT * FROM student");
+  res.send({ studentList: studentList.rows });
 });
 
-// Profile
-app.get("/profile", authenticateToken, async (request, response) => {
-  const registerNo = request.register_no;
-  const selectStudentQuery = `SELECT * FROM student WHERE register_no='${registerNo}';`;
-  const studentData = await db.get(selectStudentQuery);
-  response.send(studentData);
+app.get("/profile", authenticateToken, async (req, res) => {
+  const studentData = await db.execute({
+    sql: "SELECT * FROM student WHERE register_no = ?",
+    args: [req.register_no],
+  });
+  res.send(studentData.rows[0]);
 });
 
-// Insert Book
-app.post("/insert-book", async (request, response) => {
-  const { bookId, bookName, author, numberOfPages, publishedYear, description, publisher, bookCount, imageUrl, chapters } = request.body;
-  const insertDataQuery = `
-    INSERT INTO books (book_id, book_name, author, number_of_pages, published_year, publisher, description, book_count, image_url, chapters)
-    VALUES ('${bookId}','${bookName}','${author}',${numberOfPages},${publishedYear},'${publisher}','${description}',${bookCount},'${imageUrl}','${chapters}');
-  `;
-  await db.run(insertDataQuery);
-  response.send("Book Added");
+app.post("/insert-book", async (req, res) => {
+  const { bookId, bookName, author, numberOfPages, publishedYear, description, publisher, bookCount, imageUrl, chapters } = req.body;
+  await db.execute({
+    sql: `
+      INSERT INTO books (book_id, book_name, author, number_of_pages, published_year, publisher, description, book_count, image_url, chapters)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+    args: [bookId, bookName, author, numberOfPages, publishedYear, publisher, description, bookCount, imageUrl, chapters],
+  });
+  res.send("Book Added");
 });
 
-// Get All Books
-app.get("/books", async (request, response) => {
-  const getBooksQuery = `SELECT * FROM books ORDER BY book_name;`;
-  const books = await db.all(getBooksQuery);
-  response.send(books);
+app.get("/books", async (req, res) => {
+  const books = await db.execute("SELECT * FROM books ORDER BY book_name");
+  res.send(books.rows);
 });
 
-// Get Single Book
-app.get("/book/:bookId", async (request, response) => {
-  const { bookId } = request.params;
-  const getBooksQuery = `SELECT * FROM books WHERE book_id='${bookId}';`;
-  const book = await db.get(getBooksQuery);
-  response.send(book);
+app.get("/book/:bookId", async (req, res) => {
+  const book = await db.execute({
+    sql: "SELECT * FROM books WHERE book_id = ?",
+    args: [req.params.bookId],
+  });
+  res.send(book.rows[0]);
 });
 
 // Export app for Vercel
-module.exports = app;
+export default app;
