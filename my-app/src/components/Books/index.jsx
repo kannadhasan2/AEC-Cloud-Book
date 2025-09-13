@@ -55,6 +55,7 @@ const departmentFilterList = [
 const Books = () => {
   const [bookDetails, setBookDetails] = useState([])
   const [searchBook, setSearchBook] = useState('')
+  const [isLoading ,setIsLoading] = useState(true)
 
   useEffect(() => {
     getBooks()
@@ -78,6 +79,7 @@ const Books = () => {
         chapters: each.chapters,
       }))
       setBookDetails(updatedData)
+      setIsLoading(false)
     }
   }
 
@@ -134,7 +136,7 @@ const Books = () => {
               <BsSearch size={25} className="search-icon" />
             </button>
           </div>
-          {filteredBooks.length === 0 && (
+          {filteredBooks.length === 0 && isLoading === false && (
             <div className="no-books">
               <img
                 src="https://assets.ccbp.in/frontend/react-js/no-jobs-img.png"
