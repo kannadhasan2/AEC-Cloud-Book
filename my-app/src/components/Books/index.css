@@ -4,9 +4,9 @@
     padding-top: 5.5rem;
   }
   .books-loader{
-    height: 100vh;
+    height: 100vh;width: 100vh;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
