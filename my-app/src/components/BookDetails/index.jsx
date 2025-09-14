@@ -11,7 +11,7 @@ const BookDetails = (books)=>{
             <Link to={`/book/${bookId}`} className='book-details-container'>
             <img className='book-image' src={imageUrl}  /> 
             <div className='book-card-container'>
-                <h1>{bookName}</h1>
+                <h1 className='book-main-heading'>{bookName}</h1>
                 <p>Author: {author}</p>
                 <p>No.of Pages: {numberOfPages}</p>
                 <p>Book Count: {bookCount}</p>
