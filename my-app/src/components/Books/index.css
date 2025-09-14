@@ -4,7 +4,7 @@
     padding-top: 5.5rem;
   }
   .books-loader{
-    height: 100vh;width: 100vh;
+    height: 70vh;width: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
