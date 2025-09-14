@@ -3,6 +3,7 @@ import { BsSearch } from 'react-icons/bs'
 import Navbar from '../Navbar'
 import Profile from '../Profile'
 import BookDetails from '../BookDetails'
+import { DNA } from 'react-loader-spinner'
 import './index.css'
 
 const departmentFilterList = [
@@ -136,6 +137,20 @@ const Books = () => {
               <BsSearch size={25} className="search-icon" />
             </button>
           </div>
+          {
+            isLoading && (
+              <div className='loader'> 
+                          <DNA
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="dna-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="dna-wrapper"
+                           /> 
+                          </div>
+            )
+          }
           {filteredBooks.length === 0 && isLoading === false && (
             <div className="no-books">
               <img
