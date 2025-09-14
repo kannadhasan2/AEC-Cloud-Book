@@ -3,6 +3,13 @@
     height: 100%;
     padding-top: 5.5rem;
   }
+  .books-loader{
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
   .profile {
     width: 440px;
     padding-left: 7%;

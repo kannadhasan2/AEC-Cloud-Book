@@ -139,7 +139,7 @@ const Books = () => {
           </div>
           {
             isLoading && (
-              <div className='loader'> 
+              <div className='books-loader'> 
                           <DNA
                               visible={true}
                               height="80"
