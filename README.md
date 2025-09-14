@@ -63,16 +63,18 @@ https://aec-cloud-book-snh8.vercel.app/
 ## ⚙️ Installation & Setup
 
 1. **Clone the repository**
-    Setup Backend:
+    
    ```bash
+   Setup Backend:
+
    git clone https://github.com/kannadhasan2/AEC-Cloud-Book 
    cd Backend 
    npm install 
    node server.js 
 
-    Setup Frontend:
-    ```bash 
-    cd my-app 
-    npm install 
-    npm run dev
+   Setup Frontend:
+
+   cd my-app 
+   npm install 
+   npm run dev
    
