@@ -75,7 +75,7 @@ const Register = () => {
   return (
     <div className="login">
       <img
-        src="https://res.cloudinary.com/dn6izpj6p/image/upload/v1728577172/b68a25a6d28597b50ccbb1e12f7c2401_vm9hgt.jpg"
+        src="https://res.cloudinary.com/dn6izpj6p/image/upload/v1758757524/pexels-suzyhazelwood-1629236_ksp4ty.jpg"
         alt="login image"
         className="login__img"
       />

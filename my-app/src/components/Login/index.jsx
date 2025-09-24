@@ -62,7 +62,7 @@ const Login = () => {
 
     return (
         <div className="login">
-            <img src="https://res.cloudinary.com/dn6izpj6p/image/upload/v1728577172/b68a25a6d28597b50ccbb1e12f7c2401_vm9hgt.jpg" alt="login" className="login__img" />
+            <img src="https://res.cloudinary.com/dn6izpj6p/image/upload/v1758757520/pexels-diva-34014269_kfkc2j.jpg" alt="login" className="login__img" />
 
             <form onSubmit={submitForm} className="login__form">
                 <h1 className="login__title">Login</h1>
