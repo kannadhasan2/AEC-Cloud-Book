@@ -36,7 +36,7 @@ const Navbar = () => {
             <Link to="/"><span >Home</span></Link>
             <Link to="/departments"><span >Departments</span></Link>
             <Link to="/books"><span >Books</span></Link>
-            <Link to="/timeline"><span >Timeline</span></Link>
+            <Link to="/quiz"><span >Quiz</span></Link>
             <Link to="/contact"><span>Contact</span></Link>
         <Popup className="pop-up-container"
                 modal

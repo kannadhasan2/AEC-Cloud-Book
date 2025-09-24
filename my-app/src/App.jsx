@@ -11,6 +11,7 @@ import BookDetailedView from './components/BookDetailedView';
 import InsertBookForm from './components/InsertBook';
 import ProtectedRoute from './components/ProtectedRoute';
 import SemBooks from './components/SemBooks';
+import Quiz from './components/Quiz';
 
 const App = () => (
   <>
@@ -20,7 +21,7 @@ const App = () => (
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
-        <Route path="/timeline" element={<ProtectedRoute><Timeline/></ProtectedRoute>}/>
+        <Route path="/quiz" element={<ProtectedRoute><Quiz/></ProtectedRoute>}/>
         <Route path="/books" element={<ProtectedRoute><Books/></ProtectedRoute>} />
         <Route path="/departments" element={<ProtectedRoute><Departments /></ProtectedRoute>} />
         <Route path="/book/:bookId" element={<ProtectedRoute><BookDetailedView /></ProtectedRoute>} />
